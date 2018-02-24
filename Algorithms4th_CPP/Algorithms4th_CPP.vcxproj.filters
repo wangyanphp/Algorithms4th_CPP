@@ -38,5 +38,11 @@
     <ClInclude Include="Chapter1\stack.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Chapter1\random.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Chapter1\Vector.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

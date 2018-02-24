@@ -4,7 +4,10 @@
 #include"stack.h"
 #include"queue.h"
 #include"random.h"
+#include"singlelist.h"
 using std::string;
+
+
 /**
  *1.3.4 Parentheses
  *using helper function trim()
@@ -62,7 +65,7 @@ bool parentheses(const string &s)
 }
 
 /**
- *测试用例
+ *测试
  */
 /*
 int main()
@@ -73,6 +76,7 @@ int main()
 	ret = parentheses(s);
 }
 */
+
 
 /**
  *1.3.5:如何打印数字N的二进制表示？
@@ -103,6 +107,7 @@ void reverseQueue(Queue<Item> &q)
 		q.enqueue(stack.pop());
 }
 
+
 /**
  *1.3.9:主要依赖于空白，我们可以不用处理读取问题
  */
@@ -129,6 +134,7 @@ string addLeft(const string &s)
 	}
 	return vals.pop();
 }
+
 
 /**
  *1.3.10 中序表达式转化为后序表达式，
@@ -159,7 +165,7 @@ string infixToPostfix(const string &s)
 
 
 /**
- *1.3.11
+ *1.3.11 输入后序表达式，求值
  */
 double evaluatepostPix(const string& s)
 {
@@ -186,7 +192,7 @@ double evaluatepostPix(const string& s)
 	return vals.pop();
 }
 /**
-*测试用例
+*测试
 */
 /*
 int main()
@@ -203,6 +209,7 @@ int main()
 
 
 /**
+ *  1.3.14
  *  The {@code ResizingArrayQueue} class represents a first-in-first-out (FIFO)
  *  queue of generic items.
  *  It supports the usual <em>enqueue</em> and <em>dequeue</em>
@@ -434,401 +441,12 @@ public:
 	}	
 };
 
-template<typename Item>
-class Vector
-{
-public:
-	/**
-	 *默认构造函数
-	 */
-	Vector(){}
-	/**
-	 *拷贝控制
-	 */
-	Vector(const Vector &s)
-	{
-		auto newdata = alloc_n_copy(s.begin(), s.end());
-		elements = newdata.first;
-		first_free = cap = newdata.second;
-	}
 
-	Vector &operator=(const Vector &rhs)
-	{
-		auto newdata = alloc_n_copy(rhs.begin(), rhs.end());
-		free();
-		elements = newdata.first;
-		first_free = cap = newdata.second;
-		return *this;
-	}
-
-	Vector(Vector &&s) noexcept
-		:elements(s.elements),first_free(s.first_free),cap(s.cap)
-	{
-		s.elements = s.first_free = s.cap = nullptr;
-	}
-
-	Vector &operator=(Vector &&rhs) noexcept
-	{
-		if (this != rhs)
-			free();
-		
-		//take over resources from rhs
-		elements = rhs.elements;
-		first_free = rhs.first_free;
-		cap = rhs.cap;
-
-		//leave rhs in a destructible state
-		rhs.elements = rhs.first_free = rhs.cap = nullptr;
-
-		return *this;
-	}
-
-	~Vector() noexcept 
-	{ 
-		free(); 
-	}
-
-	/**
-	 *list assignment
-	 */
-	Vector &operator=(std::initializer_list<Item> il)
-	{
-		auto newdata = alloc_n_copy(il.begin(), il.end());
-		free();
-		elements = newdata.first;
-		first_free = cap = data.second;
-	}
-
-	/**
-	 *add item to vector
-	 */
-	void push_back(const Item &s)
-	{
-		chk_n_alloc();
-		alloc.construct(first_free++, s);
-	}
-
-	void push_back(Item &&s)
-	{
-		chk_n_alloc();
-		alloc.construct(first_free++, std::move(s));
-	}
-
-	template<class...Args> void emplace_back(Args&&... args)
-	{
-		chk_n_alloc();
-		alloc.construct(first_free++, std::forward<Args>(args)...);
-	}
-
-	/**
-	 *size and capacity
-	 */
-	size_t size() const { return first_free - elements; }
-	size_t capacity() const { return cap - elements; }
-
-	/**
-	 *item access
-	 */
-	Item &operator[](size_t n) { return elements[n]; }
-	const Item &operator[](size_t n) const { return elements[n]; }
-
-	/**
-	 *iterator interface
-	 */
-	Item* begin() const { return elements; }
-	Item* end() const { return first_free; }
-
-private:
-	static std::allocator<Item> alloc;
-	
-	/**
-	 *check whether have memory,
-	 *if not, reallocate 
-	 */
-	void chk_n_alloc()
-	{
-		if (first_free == cap)
-			reallocate();
-	}
-
-	std::pair<Item*, Item*> alloc_n_copy(const Item *b, const Item *e)
-	{
-		auto data = alloc.allocate(e - b);
-		return{ data, std::uninitialized_copy(b,e,data) };
-	}
-	
-	/**
-	 *销毁元素，释放内存
-	 */
-	void free()
-	{
-		//destory the older items in reverse order
-		for (auto p = first_free; p != elements;/*empty*/)
-			alloc.destroy(--p);
-
-		//deallocate memory
-		if (elements)
-			alloc.deallocate(elements, cap - elements);
-	}
-
-	void reallocate()
-	{
-		auto newcapacity = size() ? 2 * size() : 2;
-
-		//allocate new space
-		auto first = alloc.allocate(newcapacity);
-		auto dest = first;
-		auto elem = elements;
-
-		//move the elements
-		for (size_t i = 0; i != size(); ++i)
-			alloc.construct(dest++, std::move(*elem++));
-		free();
-
-		elements = first;
-		first_free = dest;
-		cap = elements + newcapacity;
-	}
-
-
-	Item *elements = nullptr;//指向数组首元素的地址
-	Item* first_free = nullptr;//指向数组第一个空闲元素
-	Item* cap = nullptr;//指向数组尾后位置的指针
-};
-//definition for the static data member
-template<typename Item> std::allocator<Item> Vector<Item>::alloc;
 
 
 /**
- *1.3.28
+ *1.3.18-1.3.30 实现单链表，具体参见singlelist.h
  */
-template<typename Item>
-struct __Node
-{
-	__Node *next;
-	Item item;
-};
-//declaration
-template<typename Item> class __SingleListIterator;
-
-template<typename Item>
-class SingleList
-{
-	typedef __Node<Item> Node;
-	typedef __SingleListIterator<Item> Iterator;
-public:
-	SingleList()
-		:N(0)
-	{
-		beforeFirst = alloc.allocate(1);
-		beforeFirst->next = beforeFirst;
-	}
-
-	bool isEmpty() const { return N == 0; }
-	int size() const { return N; }
-	/**
-	 *1.3.19 remove last node
-	 */
-	void pop_back()
-	{
-		erase(N - 1);
-	}
-
-	/**
-	 * 1.3.20 remove the kth elements, k starting from 0
-	 */
-	void erase(int k)
-	{
-		_ASSERT(k < N);
-		auto cur = beforeFirst;
-		auto prev = cur;
-		for (int i = 0; i <= k; ++i)
-		{
-			prev = cur;
-			cur = cur->next;
-		}
-
-		prev->next = cur->next;		
-		deleteNode(cur);
-		--N;
-	}
-	
-	/**
-	 * 1.3.21 find key
-	 */
-	bool find(const Item &s)
-	{
-		for (auto c : *this)
-			if (c == s) return true;
-		
-		return false;
-	}
-
-	/**
-	 *1.3.24
-	 */
-	Iterator removeAfter(Iterator it)
-	{	
-		auto it_copy = it;
-		if (it_copy == end() || ++it_copy == end())
-			return it;
-
-		(it.node)->next = (it_copy.node)->next;
-		deleteNode(it_copy.node);
-		--N;
-		return ++it;
-	}
-
-	/**
-	 *1.3.25
-	 */
-	Iterator insertAfter(Iterator it, const Item &item)
-	{
-		auto newNode = createNode(item);
-		newNode->next = (it.node)->next;
-		(it.node)->next = newNode;
-		++N;
-		return Iterator(newNode);
-	}
-	
-	/**
-	 *1.3.40:工具函数，插入到表头
-	 */
-	Iterator push_front(const Item &s)
-	{
-		return insertAfter(beforeBegin(), item);
-	}
-
-	/**
-	 *1.3.26
-	 */
-	int remove(const Item &key)
-	{
-		int count = 0;
-		auto prev = beforeFirst;
-		auto cur = prev;
-		for (int i = 0; i < N; ++i)
-		{
-			prev = cur;
-			cur = cur->next;
-			if (cur->item == key)
-			{
-				prev->next = cur->next;
-				deleteNode(cur);
-				++count;
-				--N;
-				cur = prev;//保持了与for循环的同步
-			}
-		}
-		return count;
-	}
-	
-	/**
-	 *1.3.27
-	 */
-	Item max() const
-	{
-		if (isEmpty())
-			return Item;
-		auto ret = *begin();
-		for (auto item : *this)
-			if (ret < item) ret = item;
-
-		return ret;
-	}
-
-	/**
-	 *1.3.30:reverse the list
-	 *迭代实现：保存prev，cur，next三个节点
-	 */
-
-	Iterator reverse(Iterator beg)
-	{
-		if (beg.node == beforeFirst) return end();
-		if ((beg.node)->next==beforeFirst) return beg;
-
-		Iterator second((beg.node)->next);
-		auto rest = reverse(second);
-		(second.node)->next = (beg.node);
-		(beg.node)->next = beforeFirst;
-		beforeFirst->next = rest.node;
-		return rest;
-	}
-
-
-	/**
-	 *iterator the list
-	 */
-	Iterator beforeBegin() const { return beforeFirst; }
-	Iterator begin() const { return beforeFirst->next; }
-	Iterator end() const { return beforeFirst; }
-private:
-	Node* beforeFirst;//equals to off last//保存一个指针，实现环装链表
-	size_t N; //the numbers of list
-
-private:
-
-private:
-	static std::allocator<Node> alloc;
-	/**
-	 *不同于数组内存分配：只有reallocator和析构函数使用alloc的分配、构造和销毁
-	 *这里经常使用这些操作，所以有必要定义工具函数
-	 */
-	Node* createNode(const Item &s)
-	{
-		auto p = alloc.allocate(1);
-		alloc.construct(&(p->item), s);//注意一定是取地址
-		return p;
-	}
-	Node* createNode(Item &&s)
-	{
-		auto p = alloc.allocate(1);
-		alloc.construct(&(p->item), std::move(s));
-		return p;
-	}
-	void deleteNode(Node* node)
-	{
-		alloc.destroy(&(node->item));
-		alloc.deallocate(node,1);
-	}
-	
-};
-
-template<typename Item> std::allocator<__Node<Item>> SingleList<Item>::alloc;
-
-template<typename Item>
-class __SingleListIterator
-{
-	typedef __SingleListIterator<Item> self;
-public:
-	__Node<Item>* node;
-public:
-	__SingleListIterator(__Node<Item>* s)
-		:node(s) {}
-	bool operator==(const self &rhs) const
-	{
-		return node==rhs.node;
-	}
-	bool operator!=(const self &rhs) const
-	{
-		return !(*this == rhs);
-	}
-	Item& operator*() const { return node->item; }
-	Item* operator->() const { return &(node->item); }
-	self& operator++()
-	{
-		node = node->next;
-		return *this;
-	}
-	self& operator++(int)
-	{
-		self ret = *this;
-		++*this;
-		return ret;
-	}
-};
-
-
 
 
 /**
@@ -876,8 +494,6 @@ public:
 		static Random random;
 		random.shuffle(r.begin(), r.end());
 	}
-
-
 };
 
 template<typename Item>
@@ -945,7 +561,7 @@ void josephus(int N, int M)
 }
 
 /**
- *1.3.39:前移编码策略：如何链表中没有此元素，则添加到表头；如果有此元素，删除此元素并再次插入到表头
+ *1.3.40:前移编码策略：如何链表中没有此元素，则添加到表头；如果有此元素，删除此元素并再次插入到表头
  *这个策略的假设是：最近访问过的元素很可能会再次访问,用于缓存和数据压缩
  *使用之前1.3.19-1.3.30定义的SingleList
  */
@@ -1036,4 +652,23 @@ public:
  *1.3.50:如何实现可以捕捉数据集合变化的迭代器？
  *用一个计数器记录push和pop操作的次数，检查计数器是否发生变化。
  */
+
+
+int main()
+{
+	SingleList<int> s1;
+	s1.pushFront(1);
+	s1.pushFront(2);
+	s1.pushFront(3);
+
+	SingleList<int> s2(s1);
+	SingleList<int> s3(std::move(s1));
+	SingleList<int> s4 = s2;
+	SingleList<int> s5 = std::move(s4);
+
+	int a = 1;
+
+
+
+}
 

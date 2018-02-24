@@ -46,6 +46,16 @@ public: //迭代功能
 	Iterator begin() const { return dummy->next; }
 	Iterator end() const { return dummy; }
 
+public: //拷贝控制
+	SingleList(const SingleList &rhs);
+	SingleList(SingleList &&rhs) noexcept;
+	SingleList& operator=(const SingleList &rhs);
+	SingleList& operator=(SingleList &&rhs) noexcept;
+	~SingleList();
+private:
+	void free();//拷贝控制的辅助函数——释放链表所有节点
+
+
 private: //内部类
 	struct Node
 	{
@@ -90,6 +100,72 @@ private: //动态内存分配
 template<typename Item> std::allocator<typename SingleList<Item>::Node> SingleList<Item>::alloc;
 
 
+
+//拷贝控制函数
+template<typename Item>
+SingleList<Item>::SingleList(const SingleList &rhs) 
+	:SingleList()
+{
+	for (auto item : rhs) 
+		pushFront(item);
+
+	reverse(begin());
+	N = rhs.N;
+
+}
+
+template<typename Item>
+SingleList<Item>::SingleList(SingleList &&rhs) noexcept
+	:dummy(rhs.dummy), N(rhs.N)
+{
+	rhs.dummy = nullptr;
+	rhs.N = 0;
+}
+
+template<typename Item> 
+SingleList<Item>& SingleList<Item>::operator=(const SingleList &rhs)
+{
+	if (*this != rhs)
+	{
+		free();
+		for (auto item : rhs)
+			pushFront(item);
+
+		reverse(begin());
+		N = rhs.N;
+	}
+}
+template<typename Item>
+SingleList<Item>& SingleList<Item>::operator=(SingleList &&rhs) noexcept
+{
+	if (*this != rhs)
+	{
+		free();
+		dummy = rhs.dummy;
+		N = rhs.N;
+		rhs.dummy = nullptr;
+		rhs.N = 0;
+	}
+}
+
+template<typename Item>
+SingleList<Item>::~SingleList()
+{
+	free();
+}
+
+template<typename Item>
+void SingleList<Item>::free()
+{
+	while (!isEmpty())
+	{
+		erase(1);
+	}
+	N = 0;
+	dummy = nullptr;
+}
+//-------拷贝控制函数结束-----------------------------------------//
+
 template<typename Item>
 void  SingleList<Item>::popBack()
 {
@@ -99,7 +175,7 @@ void  SingleList<Item>::popBack()
 template<typename Item>
 void  SingleList<Item>::erase(int k)
 {
-	_ASSERT(k < N);
+	_ASSERT(k <= N);
 	auto cur = dummy;
 	auto prev = cur;
 	for (int i = 0; i < k; ++i)
@@ -203,6 +279,17 @@ SingleList<Item>::reverse(Iterator beg)
 //#include<iostream>
 //int main()
 //{
+//拷贝控制测试：
+//SingleList<int> s1;
+//s1.pushFront(1);
+//s1.pushFront(2);
+//s1.pushFront(3);
+//
+//SingleList<int> s2(s1);
+//SingleList<int> s3(std::move(s1));
+//SingleList<int> s4 = s2;
+//SingleList<int> s5 = std::move(s4);
+// 功能测试：
 //	SingleList<int> list;
 //	list.pushFront(1);
 //	list.pushFront(2);

@@ -153,8 +153,10 @@
   <ItemGroup>
     <ClInclude Include="Chapter1\bag.h" />
     <ClInclude Include="Chapter1\queue.h" />
+    <ClInclude Include="Chapter1\random.h" />
     <ClInclude Include="Chapter1\singlelist.h" />
     <ClInclude Include="Chapter1\stack.h" />
+    <ClInclude Include="Chapter1\Vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
