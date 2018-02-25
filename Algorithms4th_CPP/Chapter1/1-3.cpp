@@ -654,21 +654,3 @@ public:
  */
 
 
-int main()
-{
-	SingleList<int> s1;
-	s1.pushFront(1);
-	s1.pushFront(2);
-	s1.pushFront(3);
-
-	SingleList<int> s2(s1);
-	SingleList<int> s3(std::move(s1));
-	SingleList<int> s4 = s2;
-	SingleList<int> s5 = std::move(s4);
-
-	int a = 1;
-
-
-
-}
-

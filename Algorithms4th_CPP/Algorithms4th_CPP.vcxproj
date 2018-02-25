@@ -156,7 +156,11 @@
     <ClInclude Include="Chapter1\random.h" />
     <ClInclude Include="Chapter1\singlelist.h" />
     <ClInclude Include="Chapter1\stack.h" />
+    <ClInclude Include="Chapter1\test.h" />
     <ClInclude Include="Chapter1\Vector.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Chapter1\说明" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
