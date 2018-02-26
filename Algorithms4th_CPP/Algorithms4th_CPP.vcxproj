@@ -157,6 +157,7 @@
     <ClInclude Include="Chapter1\singlelist.h" />
     <ClInclude Include="Chapter1\stack.h" />
     <ClInclude Include="Chapter1\test.h" />
+    <ClInclude Include="Chapter1\uf.h" />
     <ClInclude Include="Chapter1\Vector.h" />
   </ItemGroup>
   <ItemGroup>

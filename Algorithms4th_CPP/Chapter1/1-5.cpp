@@ -94,50 +94,50 @@ void UF1::unions2(int p, int q)
  *不是随意的将一棵树连接到另一棵树，我们现在会记录每一棵树的大小，并将较小的树连接到较大的树上
  */
 
-class UF
-{
-private:
-	std::vector<int> id; 
-	std::vector<int> sz;
-	int cnt;
-
-public:
-	UF(int N) :cnt(N)
-	{
-		for (int i = 0; i < N; ++i)
-		{
-			id.push_back(i);
-			sz.push_back(1);
-		}
-	}
-
-	int count() const { return cnt; }
-	bool connected(int p, int q) { return find(p) == find(q); }
-	int find(int p)
-	{
-		while (p != id[p]) p = id[p];
-		return p;
-	}
-
-	void unions(int p, int q)
-	{
-		int pRoot = find(p);
-		int qRoot = find(q);
-		if (pRoot == qRoot) return;
-
-		if (sz[pRoot] < sz[qRoot])
-		{
-			id[pRoot] = qRoot;
-			sz[qRoot] += sz[pRoot];
-		}
-		else
-		{
-			id[qRoot] = pRoot;
-			sz[pRoot] += sz[qRoot];
-		}
-		--cnt;
-	}
-};
+//class UF
+//{
+//private:
+//	std::vector<int> id; 
+//	std::vector<int> sz;
+//	int cnt;
+//
+//public:
+//	UF(int N) :cnt(N)
+//	{
+//		for (int i = 0; i < N; ++i)
+//		{
+//			id.push_back(i);
+//			sz.push_back(1);
+//		}
+//	}
+//
+//	int count() const { return cnt; }
+//	bool connected(int p, int q) { return find(p) == find(q); }
+//	int find(int p)
+//	{
+//		while (p != id[p]) p = id[p];
+//		return p;
+//	}
+//
+//	void unions(int p, int q)
+//	{
+//		int pRoot = find(p);
+//		int qRoot = find(q);
+//		if (pRoot == qRoot) return;
+//
+//		if (sz[pRoot] < sz[qRoot])
+//		{
+//			id[pRoot] = qRoot;
+//			sz[qRoot] += sz[pRoot];
+//		}
+//		else
+//		{
+//			id[qRoot] = pRoot;
+//			sz[pRoot] += sz[qRoot];
+//		}
+//		--cnt;
+//	}
+//};
 
 /**
  *分析：对于N触点，加权quick-union算法构造的森林中的任意节点的深度最多为lgN，用数学归纳法分析：如果i+j=k, 设i<=j,则小树的所有节点的深度增加

@@ -44,5 +44,14 @@
     <ClInclude Include="Chapter1\Vector.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Chapter1\test.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Chapter1\uf.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Chapter1\说明" />
   </ItemGroup>
 </Project>
