@@ -72,6 +72,7 @@ private:
  * AInv[0,3,1,6,2,5,4]={0,1...6}
  * ”…¥Àindex of B[i] AInv[B[i]]
  */
+//
 
 #include<vector>
 int kendallTau(const std::vector<int>& a, const std::vector<int>& b)
