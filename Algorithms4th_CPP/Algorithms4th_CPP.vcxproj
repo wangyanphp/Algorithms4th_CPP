@@ -149,6 +149,11 @@
     <ClCompile Include="Chapter1\1-3.cpp" />
     <ClCompile Include="Chapter1\1-4.cpp" />
     <ClCompile Include="Chapter1\1-5.cpp" />
+    <ClCompile Include="Chapter2\2-1.cpp" />
+    <ClCompile Include="Chapter2\2-2.cpp" />
+    <ClCompile Include="Chapter2\2-3.cpp" />
+    <ClCompile Include="Chapter2\2-4.cpp" />
+    <ClCompile Include="Chapter2\2-5.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chapter1\bag.h" />
@@ -159,6 +164,8 @@
     <ClInclude Include="Chapter1\test.h" />
     <ClInclude Include="Chapter1\uf.h" />
     <ClInclude Include="Chapter1\Vector.h" />
+    <ClInclude Include="Chapter2\pq.h" />
+    <ClInclude Include="Chapter2\sort.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Chapter1\说明" />
