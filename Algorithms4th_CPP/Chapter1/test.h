@@ -70,22 +70,3 @@ void doubleRatio(Func timeTrial)
 		prev = time;
 	}
 }
-
-
-//对于排序算法性能测试
-#include"random.h"
-template<typename Func>
-double timeRondomInput(Func time, const std::string& alg, int N, int T)
-{ //使用算法将长度为N的数组排序T次
-	double total = 0;
-	std::vector<double> a(N);
-	static Random r;
-	for (int t = 0; t < T; ++t)
-	{
-		for (int i = 0; i < N; ++i)
-			a[i] = r.uniform(0, 100);
-
-		total += time(alg, a);
-	}
-	return total;
-}
