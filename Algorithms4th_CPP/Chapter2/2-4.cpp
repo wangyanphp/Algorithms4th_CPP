@@ -118,135 +118,135 @@ private:
 //	system("pause");
 //}
 
-/**
-*首先我们需要通过index来索引key
-*一种实现方式是：pq[loc]保存的是<index,key>,aux[index]=loc
-*这样的话，我们可以通过pq[aux[index]].key来实现访问。
-*那么，如何实现优先队列呢？
-*我们可以pq的key进行优先队列排序，每当更新pq时，同时更新aux即可。
-*aux可以通过map来实现
-*
-*现在的好处是index是整数，如果index是0到N范围的话，我们就可以使用数组，而不是map来实现aux
-*我们还可以实现的一点改进是：不用整体移动<index,key>,只移动index来进行排序
-*此时qp[index]=loc, pq[loc]=index, 如果keys[index]=key，那么就不需要移动key，只需要关系qp和pq即可
-*根据之前的分析，我们进行优先队列操作的是pq数组，当改变loc时，同时更新qp，这一点不能弄混了
-*抓住了这一点，我们就可以写出IndexMinPQ的代码了
-*/
-template<typename T, typename Compare = std::less<T>>
-class IndexPQ
-{
-private:
-	int N = 0;
-	std::vector<int> pq; //索引二叉堆
-	std::vector<int> qp; //逆序：qp[pq[i]]=pq[qp[i]]=i
-	std::vector<T> keys;
-	//备注：qp[indx]是位置。keys[qp[index]]=key, pq[qp[index]]=index
-	Compare comp;
-public:
-	explicit IndexPQ(int maxN)
-		:pq(maxN + 1), qp(maxN + 1), keys(maxN + 1)
-	{
-		for (int i = 0; i < qp.size(); ++i)
-			qp[i] = -1;
-	}
-	void push(int i, T k)
-	{
-		if (contains(i))
-			return;
-		++N;
-		qp[i] = N;
-		keys[i] = k;
-		pq[N] = i;
-		swim(N);
-	}
-	int indexOfTop()
-	{
-		return pq[1];
-	}
-	T top()
-	{
-		return keys[pq[1]];
-	}
-
-	int pop()
-	{//删除key值最小的项，返回其对应的索引
-		int min = pq[1];
-		exch(1, N--);
-		sink(1);
-
-		qp[min] = -1;
-		pq[N + 1] = -1;
-		return min;
-	}
-
-	T keyOf(int i)
-	{//返回索引所对应的键值
-		_ASSERT(contains(i));
-		return keys[i];
-	}
-
-	void changeKey(int i, T k)
-	{
-		if (greater(k, keys[i]))
-		{
-			keys[i] = k;
-			sink(qp[i]);
-		}
-		else
-		{
-			keys[i] = k;
-			swim(qp[i]);
-		}
-	}
-
-	bool contains(int i) { return qp[i] != -1; }
-	void deleteT(int i)
-	{
-		_ASSERT(contains(i));
-		int loc = qp[i];
-		exch(loc, N--);
-		swim(loc);
-		swim(loc);
-		qp[i] = -1;
-	}
-
-	bool isEmpty() { return N == 0; }
-	int size() { return N; }
-
-private:
-	bool compare(int i, int j)
-	{
-		return comp(keys[pq[i]], keys[pq[j]]);
-	}
-
-	void exch(int i, int j)
-	{
-		//两个位置的index互换
-		std::swap(pq[i], pq[j]);
-		std::swap(qp[pq[i]], qp[pq[j]]);
-	}
-
-	void swim(int k)
-	{
-		while (k > 1 && compare(k >> 1, k))
-		{
-			exch(k, k >> 1);
-			k >>= 1;
-		}
-	}
-
-	void sink(int k)
-	{
-		while ((k << 1) <= N)
-		{
-			int j = k << 1;
-			if (j < N && compare(j, j + 1)) ++j;
-			if (!compare(k, j))break;
-			exch(k, j);
-			k = j;
-		}
-	}
-};
+///**
+//*首先我们需要通过index来索引key
+//*一种实现方式是：pq[loc]保存的是<index,key>,aux[index]=loc
+//*这样的话，我们可以通过pq[aux[index]].key来实现访问。
+//*那么，如何实现优先队列呢？
+//*我们可以pq的key进行优先队列排序，每当更新pq时，同时更新aux即可。
+//*aux可以通过map来实现
+//*
+//*现在的好处是index是整数，如果index是0到N范围的话，我们就可以使用数组，而不是map来实现aux
+//*我们还可以实现的一点改进是：不用整体移动<index,key>,只移动index来进行排序
+//*此时qp[index]=loc, pq[loc]=index, 如果keys[index]=key，那么就不需要移动key，只需要关系qp和pq即可
+//*根据之前的分析，我们进行优先队列操作的是pq数组，当改变loc时，同时更新qp，这一点不能弄混了
+//*抓住了这一点，我们就可以写出IndexMinPQ的代码了
+//*/
+//template<typename T, typename Compare = std::less<T>>
+//class IndexPQ
+//{
+//private:
+//	int N = 0;
+//	std::vector<int> pq; //索引二叉堆
+//	std::vector<int> qp; //逆序：qp[pq[i]]=pq[qp[i]]=i
+//	std::vector<T> keys;
+//	//备注：qp[indx]是位置。keys[qp[index]]=key, pq[qp[index]]=index
+//	Compare comp;
+//public:
+//	explicit IndexPQ(int maxN)
+//		:pq(maxN + 1), qp(maxN + 1), keys(maxN + 1)
+//	{
+//		for (int i = 0; i < qp.size(); ++i)
+//			qp[i] = -1;
+//	}
+//	void push(int i, T k)
+//	{
+//		if (contains(i))
+//			return;
+//		++N;
+//		qp[i] = N;
+//		keys[i] = k;
+//		pq[N] = i;
+//		swim(N);
+//	}
+//	int indexOfTop()
+//	{
+//		return pq[1];
+//	}
+//	T top()
+//	{
+//		return keys[pq[1]];
+//	}
+//
+//	int pop()
+//	{//删除key值最小的项，返回其对应的索引
+//		int min = pq[1];
+//		exch(1, N--);
+//		sink(1);
+//
+//		qp[min] = -1;
+//		pq[N + 1] = -1;
+//		return min;
+//	}
+//
+//	T keyOf(int i)
+//	{//返回索引所对应的键值
+//		_ASSERT(contains(i));
+//		return keys[i];
+//	}
+//
+//	void changeKey(int i, T k)
+//	{
+//		if (greater(k, keys[i]))
+//		{
+//			keys[i] = k;
+//			sink(qp[i]);
+//		}
+//		else
+//		{
+//			keys[i] = k;
+//			swim(qp[i]);
+//		}
+//	}
+//
+//	bool contains(int i) { return qp[i] != -1; }
+//	void deleteT(int i)
+//	{
+//		_ASSERT(contains(i));
+//		int loc = qp[i];
+//		exch(loc, N--);
+//		swim(loc);
+//		swim(loc);
+//		qp[i] = -1;
+//	}
+//
+//	bool isEmpty() { return N == 0; }
+//	int size() { return N; }
+//
+//private:
+//	bool compare(int i, int j)
+//	{
+//		return comp(keys[pq[i]], keys[pq[j]]);
+//	}
+//
+//	void exch(int i, int j)
+//	{
+//		//两个位置的index互换
+//		std::swap(pq[i], pq[j]);
+//		std::swap(qp[pq[i]], qp[pq[j]]);
+//	}
+//
+//	void swim(int k)
+//	{
+//		while (k > 1 && compare(k >> 1, k))
+//		{
+//			exch(k, k >> 1);
+//			k >>= 1;
+//		}
+//	}
+//
+//	void sink(int k)
+//	{
+//		while ((k << 1) <= N)
+//		{
+//			int j = k << 1;
+//			if (j < N && compare(j, j + 1)) ++j;
+//			if (!compare(k, j))break;
+//			exch(k, j);
+//			k = j;
+//		}
+//	}
+//};
 
 //int main()
 //{

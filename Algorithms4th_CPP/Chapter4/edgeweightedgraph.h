@@ -43,7 +43,7 @@ public:
 	}
 };
 
-#include"bag.h"
+#include"../Chapter1/bag.h"
 #include<istream>
 #include<algorithm>
 class EdgeWeightedGraph
@@ -121,13 +121,13 @@ public:
 	}	
 };
 
-#include"maxpq.h"
+#include"../Chapter2/pq.h"
 class LazyPrimMST
 {
 private:
 	std::vector<bool> marked_;
 	std::vector<Edge> mst_;
-	MinPQ<Edge> pq_;
+	PQ<Edge, std::greater<Edge>> pq_;
 	double weight_ = 0;
 
 public:
@@ -136,7 +136,7 @@ public:
 		visit(g, 0);
 		while (!pq_.isEmpty())
 		{
-			Edge e = pq_.delMin();
+			Edge e = pq_.pop();
 
 			int v = e.either(), w = e.other(v);
 			if (marked_[v] && marked_[w])continue;
@@ -157,7 +157,7 @@ private:
 		marked_[v] = true;
 		for (auto it = g.begin(v); it != g.end(v); ++it)
 		{
-			if (!marked_[it->other(v)]) pq_.insert(*it);
+			if (!marked_[it->other(v)]) pq_.push(*it);
 		}
 	}
 };
@@ -169,17 +169,18 @@ private:
 	std::vector<double> distTo_;
 	std::vector<bool> marked_;
 
-	IndexMinPQ<double> pq_;
+
+	IndexPQ<double,std::greater<double>> pq_;
 
 public:
 	PrimMST(EdgeWeightedGraph &g) :edgeTo_(g.V()), distTo_(g.V(), INT_MAX), marked_(g.V(), false), pq_(g.V())
 	{
 		distTo_[0] = 0;
-		pq_.insert(0, 0);
+		pq_.push(0, 0);
 		while (!pq_.isEmpty())
 		{
-			auto wei = pq_.minKey();
-			auto v = pq_.delMin();
+			auto wei = pq_.top();
+			auto v = pq_.pop();
 			visit(g, v);
 		}
 			
@@ -209,13 +210,13 @@ private:
 				distTo_[w] = it->weight();
 
 				if (pq_.contains(w)) pq_.changeKey(w, distTo_[w]);
-				else pq_.insert(w, distTo_[w]);
+				else pq_.push(w, distTo_[w]);
 			}
 		}
 	}
 
 };
-#include"uf.h"
+#include"../Chapter1/uf.h"
 class KruskalMST
 {
 private:
@@ -225,12 +226,12 @@ public:
 	KruskalMST(EdgeWeightedGraph &g)
 	{
 		auto edges = g.edges();
-		MinPQ<Edge> pq(edges.begin(), edges.end());
+		PQ<Edge, std::greater<Edge>> pq(edges.begin(), edges.end());
 		UF uf(g.V());
 
 		while(!pq.isEmpty() && mst_.size()<g.V()-1)
 		{
-			auto e = pq.delMin();
+			auto e = pq.pop();
 			int v = e.either(), w = e.other(v);
 			if (uf.connected(v, w)) continue;
 			uf.unions(v, w);

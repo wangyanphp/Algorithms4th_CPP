@@ -1,5 +1,5 @@
 #pragma once
-#include"bag.h"
+#include"../Chapter1/bag.h"
 #include<vector>
 #include<algorithm>
 
@@ -121,7 +121,7 @@ private:
 /**
  *常用算法2：寻找路径
  */
-#include"stack.h"
+#include"../Chapter1/stack.h"
 class DirectedPaths
 {
 private:
@@ -237,7 +237,7 @@ private:
  *2. 不断检测并去除有向图的所有环，以确保存在可行方案
  *3. 使用拓扑排序解决调度问题
  */
-#include"queue.h"
+#include"../Chapter1/queue.h"
 class DepthFirstOrder
 {
 private:

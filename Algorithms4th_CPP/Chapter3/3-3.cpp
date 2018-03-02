@@ -78,3 +78,30 @@ using std::string;
 //
 //	system("pause");
 //}
+
+#include<vector>
+using std::vector;
+class A
+{
+public:
+	vector<int> a = { 1,2,3 };
+	
+	void f()
+	{
+		for (auto item : a)
+			std::cout << item;
+	}
+};
+
+class B :public A
+{
+public:
+	vector<string> a = { "a","b","c" };
+};
+
+int main()
+{
+	B b;
+	b.f();
+	system("pause");
+}

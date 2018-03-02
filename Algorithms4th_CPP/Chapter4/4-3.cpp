@@ -1,7 +1,7 @@
 #include"edgeweightedgraph.h"
 #include<fstream>
 #include<iostream>
-#include"3-5.cpp"
+#include"../Chapter3/3-5.cpp"
 
 /**
  *4.3.23 Vyssotsky ·½·¨
@@ -90,6 +90,7 @@ public:
 	}
 };
 
+#include"../Chapter1/stack.h"
 class  RemoveCycle
 {
 private:

@@ -4,7 +4,7 @@
  *一般情况下来说，graph采用邻接表来实现，但是在其他情况下，也有可能会采用其他的数据结构。具体参加P337
  *
  */
-#include"bag.h"
+#include"../Chapter1/bag.h"
 #include<vector>
 #include<algorithm>
 class Graph
@@ -80,7 +80,7 @@ public:
  *如果单纯是这个目的的话，不如构建Union-Find来得快
  *但是，此处使用DFS来实现
  */
-#include"queue.h"
+#include"../Chapter1/queue.h"
 class Search
 {
 private:
@@ -131,7 +131,7 @@ private:
  *常用算法2：寻找路径
  *路径就不能用union-find来寻找了，还是得使用搜索策略
  */
-#include"stack.h"
+#include"../Chapter1/stack.h"
 class Path
 {
 private:
@@ -307,7 +307,7 @@ private:
 /**
  *常用算法6：符号图
  */
-#include"ST.h"
+#include"../Chapter3/ST2017.h"
 class SymbolGraph
 {
 private:

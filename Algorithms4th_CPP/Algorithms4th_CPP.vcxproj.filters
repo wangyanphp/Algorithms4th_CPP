@@ -51,6 +51,15 @@
     <ClCompile Include="Chapter3\3-5.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Chapter4\4-1.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Chapter4\4-2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Chapter4\4-3.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chapter1\bag.h">
@@ -87,6 +96,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Chapter3\st.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Chapter4\digraph.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Chapter4\edgeweightedgraph.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Chapter4\graph.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

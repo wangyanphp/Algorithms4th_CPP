@@ -158,6 +158,9 @@
     <ClCompile Include="Chapter3\3-2.cpp" />
     <ClCompile Include="Chapter3\3-3.cpp" />
     <ClCompile Include="Chapter3\3-5.cpp" />
+    <ClCompile Include="Chapter4\4-1.cpp" />
+    <ClCompile Include="Chapter4\4-2.cpp" />
+    <ClCompile Include="Chapter4\4-3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Chapter1\bag.h" />
@@ -172,6 +175,9 @@
     <ClInclude Include="Chapter2\sort.h" />
     <ClInclude Include="Chapter3\st.h" />
     <ClInclude Include="Chapter3\ST2017.h" />
+    <ClInclude Include="Chapter4\digraph.h" />
+    <ClInclude Include="Chapter4\edgeweightedgraph.h" />
+    <ClInclude Include="Chapter4\graph.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Chapter1\说明" />
