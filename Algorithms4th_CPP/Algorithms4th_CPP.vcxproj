@@ -170,7 +170,8 @@
     <ClInclude Include="Chapter1\Vector.h" />
     <ClInclude Include="Chapter2\pq.h" />
     <ClInclude Include="Chapter2\sort.h" />
-    <ClInclude Include="Chapter3\ST.h" />
+    <ClInclude Include="Chapter3\st.h" />
+    <ClInclude Include="Chapter3\ST2017.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Chapter1\说明" />

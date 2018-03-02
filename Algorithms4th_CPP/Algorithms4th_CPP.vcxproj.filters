@@ -83,7 +83,10 @@
     <ClInclude Include="Chapter2\pq.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Chapter3\ST.h">
+    <ClInclude Include="Chapter3\ST2017.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Chapter3\st.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
